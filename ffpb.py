@@ -164,6 +164,10 @@ def main(argv=None, stream=sys.stderr, encoding=None, tqdm=tqdm):
 
     except KeyboardInterrupt:
         print("Exiting.", file=stream)
+        os.killpg(os.getpgid(p.pid), signal.SIGINT)
+        stdout, stderr = p.communicate()
+        print(f'stdout:{stdout}')
+        print(f'stderr:{stderr}')
         return signal.SIGINT + 128  # POSIX standard
 
     except Exception as err:
